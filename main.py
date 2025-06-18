@@ -10,6 +10,7 @@ file_name = os.path.join(script_dir, 'gene.fna')
 
 # open file as fasta (each line is either the name of a sequence or a sequence itself)
 names = []
+print(names)
 seqs = []
 with open(file_name, 'r') as fa:
     for record in SeqIO.parse(fa, 'fasta'):
@@ -17,6 +18,7 @@ with open(file_name, 'r') as fa:
         seqs.append(str(record.seq))
 
 # computing codon count and frequencies
+gene_name = names[0]
 rawData = codon_analysis.analyzeCodons(seqs[0], 'dna')
 data = rawData[0]
 sorted_data = sorted(data.items(), key=lambda item: item[1], reverse=True)
@@ -44,6 +46,19 @@ ax1.set_xticks(range(len(codons)))
 ax1.set_xticklabels(codons, fontsize=9, rotation=45, ha='right')
 
 plt.tight_layout()
+
+# save plot to png
+# directory to save to
+output_dir = 'plots'
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+# Create dynamic filename to avoid overwriting
+output_filename = os.path.join(output_dir, f'{'GRCh38.p14'}_codon_usage.png')
+
+# save figure and close plot
+plt.savefig(output_filename, dpi=300) 
+plt.close()
 
 # computing amino acid count and frequencies
 aa = codon_analysis.analyzeAminoAcids(data)
@@ -73,4 +88,11 @@ ax1.set_xticks(range(len(codo)))
 ax1.set_xticklabels(codo, fontsize=9, rotation=45, ha='right')
 
 plt.tight_layout()
-plt.show()
+
+# save plot to png
+# Create dynamic filename to avoid overwriting
+output_filename = os.path.join(output_dir, f'{'GRCh38.p14'}_amino_acid_usage.png')
+
+# save figure and close plot
+plt.savefig(output_filename, dpi=300) 
+plt.close()
