@@ -1,7 +1,7 @@
 import os
 from Bio import SeqIO
 import matplotlib.pyplot as plt
-import codon_analysis
+import analysis
 # show amino acid distribution
 
 # read file
@@ -10,7 +10,6 @@ file_name = os.path.join(script_dir, 'gene.fna')
 
 # open file as fasta (each line is either the name of a sequence or a sequence itself)
 names = []
-print(names)
 seqs = []
 with open(file_name, 'r') as fa:
     for record in SeqIO.parse(fa, 'fasta'):
@@ -19,7 +18,7 @@ with open(file_name, 'r') as fa:
 
 # computing codon count and frequencies
 gene_name = names[0]
-rawData = codon_analysis.analyzeCodons(seqs[0], 'dna')
+rawData = analysis.analyzeCodons(seqs[0], 'dna')
 data = rawData[0]
 sorted_data = sorted(data.items(), key=lambda item: item[1], reverse=True)
 codons, codonCount = zip(*sorted_data)
@@ -61,7 +60,7 @@ plt.savefig(output_filename, dpi=300)
 plt.close()
 
 # computing amino acid count and frequencies
-aa = codon_analysis.analyzeAminoAcids(data)
+aa = analysis.analyzeAminoAcids(data)
 print(aa)
 sorted_aa = sorted(aa.items(), key=lambda item: item[1], reverse=True)
 codo, aaCount = zip(*sorted_aa)
