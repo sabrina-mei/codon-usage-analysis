@@ -1,22 +1,22 @@
 # Given a DNA or RNA sequence, analyze codon usage
 
 codon_table = {
-    'UUU': 'F', 'CUU': 'L', 'AUU': 'I', 'GUU': 'V',
-    'UUC': 'F', 'CUC': 'L', 'AUC': 'I', 'GUC': 'V',
-    'UUA': 'L', 'CUA': 'L', 'AUA': 'I', 'GUA': 'V',
-    'UUG': 'L', 'CUG': 'L', 'AUG': 'M', 'GUG': 'V',
-    'UCU': 'S', 'CCU': 'P', 'ACU': 'T', 'GCU': 'A',
-    'UCC': 'S', 'CCC': 'P', 'ACC': 'T', 'GCC': 'A',
-    'UCA': 'S', 'CCA': 'P', 'ACA': 'T', 'GCA': 'A',
-    'UCG': 'S', 'CCG': 'P', 'ACG': 'T', 'GCG': 'A',
-    'UAU': 'Y', 'CAU': 'H', 'AAU': 'N', 'GAU': 'D',
-    'UAC': 'Y', 'CAC': 'H', 'AAC': 'N', 'GAC': 'D',
-    'UAA': 'Stop', 'CAA': 'Q', 'AAA': 'K', 'GAA': 'E',
-    'UAG': 'Stop', 'CAG': 'Q', 'AAG': 'K', 'GAG': 'E',
-    'UGU': 'C', 'CGU': 'R', 'AGU': 'S', 'GGU': 'G',
-    'UGC': 'C', 'CGC': 'R', 'AGC': 'S', 'GGC': 'G',
-    'UGA': 'Stop', 'CGA': 'R', 'AGA': 'R', 'GGA': 'G',
-    'UGG': 'W', 'CGG': 'R', 'AGG': 'R', 'GGG': 'G'
+    'UUU': 'F', 'UUC': 'F', 'UUA': 'L', 'UUG': 'L', 
+    'CUU': 'L', 'CUC': 'L', 'CUA': 'L', 'CUG': 'L',
+    'AUU': 'I', 'AUC': 'I', 'AUA': 'I', 'AUG': 'M',
+    'GUU': 'V', 'GUC': 'V', 'GUA': 'V', 'GUG': 'V',
+    'UCU': 'S', 'UCC': 'S', 'UCA': 'S', 'UCG': 'S',
+    'CCU': 'P', 'CCC': 'P', 'CCA': 'P', 'CCG': 'P',
+    'ACU': 'T', 'ACC': 'T', 'ACA': 'T', 'ACG': 'T',
+    'GCU': 'A', 'GCC': 'A', 'GCA': 'A', 'GCG': 'A',
+    'UAU': 'Y', 'UAC': 'Y', 'UAA': '*', 'UAG': '*',
+    'CAU': 'H', 'CAC': 'H', 'CAA': 'Q', 'CAG': 'Q',
+    'AAU': 'N', 'AAC': 'N', 'AAA': 'K', 'AAG': 'K',
+    'GAU': 'D', 'GAC': 'D', 'GAA': 'E', 'GAG': 'E',
+    'UGU': 'C', 'UGC': 'C', 'UGA': '*', 'UGG': 'W',
+    'CGU': 'R', 'CGC': 'R', 'CGA': 'R', 'CGG': 'R', 
+    'AGU': 'S', 'AGC': 'S', 'AGA': 'R', 'AGG': 'R',
+    'GGU': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G'
 }
 
 # make a reversed table, each item is key (an anmino acid) with list of values (codons that code for the AA)
@@ -27,15 +27,19 @@ for key, val in codon_table.items():
     else:
         rev_codon_table[val] = [key]
 
+# theoretical synonomous codon fractions
+# ex: for amino acid F, 1/2 UUU and 1/2 UUC
+codon_fractions = {}
+
 # type of sequence is either 'rna' or 'dna'
 # return tuple (dictionary, int): ({key (codon), value (count)}, total num of codons)
-def analyzeCodons(sequence: str, type: str):
+def analyze_codons(sequence: str, type: str):
     if type.lower() == 'dna':
         sequence = sequence.replace('T', 'U')
-    
-    idx = sequence.find('AUG')
-    if idx < 0:
-        raise ValueError('Sequence does not contain a start codon')
+    idx = 0
+    # idx = sequence.find('AUG')
+    # if idx < 0:
+    #     raise ValueError('Sequence does not contain a start codon')
     
     count = {key: 0 for key in codon_table}
     total = 0
@@ -48,9 +52,40 @@ def analyzeCodons(sequence: str, type: str):
 
     return (count, total)
 
-def analyzeAminoAcids(codons: dict):
+"""
+Computes the number of each amino acid present
+
+:param dict codons: keys are codons and values are count of how many times they appear, this can be the first value in the analyze_codon output tuple
+:return: amino acid counts (keys are amino acids, values are counts) 
+:rtype: dict
+"""
+def analyze_amino_acids(data: dict):
+    # initialize map, keys are amino acids, values set to zero
     count = {key: 0 for key in rev_codon_table}
-    for key, val in rev_codon_table.items():
-        for c in val:
-            count[key] += codons[c]
+    # go through all amino acids
+    for amino_acid, codons in rev_codon_table.items():
+        # for each codon, add count to corresponding amino acid
+        for codon in codons:
+            count[amino_acid] += data[codon]
     return count
+
+"""
+Computes the Relative Synonymous Codon Usage (RSCU) scores
+
+:param dict codon_data: keys are codons, values are counts
+:param dict amino_acid_data: keys are amino acids, values are counts
+:return: rscu, keys are codons, values are rscu
+:rtype: dict
+"""
+def rscu(codon_data: dict, amino_acid_data: dict):
+    rscu = {key: 0.0 for key in codon_table}
+    for codon, amino_acid in codon_table.items():
+        # theoretical fraction is 1/(num of codons for that amino acid)
+        perfect = 1 / len(rev_codon_table[amino_acid])
+        if amino_acid_data[amino_acid] != 0:    # avoid divide by 0 error
+            # rscu = observed freq / theoretial freq
+            rscu[codon] = (codon_data[codon] / amino_acid_data[amino_acid]) / perfect
+        else:
+            rscu[codon] = 0.0
+    return rscu
+
