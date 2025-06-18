@@ -2,6 +2,8 @@ import os
 from Bio import SeqIO
 import matplotlib.pyplot as plt
 import analysis
+import plotting
+
 # show amino acid distribution
 
 # read file
@@ -16,48 +18,22 @@ with open(file_name, 'r') as fa:
         names.append(record.id)
         seqs.append(str(record.seq))
 
-# computing codon count and frequencies
-gene_name = names[0]
-rawData = analysis.analyzeCodons(seqs[0], 'dna')
-data = rawData[0]
-sorted_data = sorted(data.items(), key=lambda item: item[1], reverse=True)
-codons, codonCount = zip(*sorted_data)
-codonFreq = tuple(x / rawData[1] for x in codonCount)
-
-# plotting codon distribution (count and frequency)
-fig, ax1 = plt.subplots(figsize=(12, 6))
-fig.suptitle('Codon Count and Frequency', fontsize=14)
-
-# Bar plot for count
-bars = ax1.bar(codons, codonCount, color='turquoise', label='Count')
-ax1.set_xlabel('Codon')
-ax1.set_ylabel('Count')
-ax1.margins(x=0.01)
-
-# Second y-axis for frequency
-ax2 = ax1.twinx()
-ax2.plot(codons, codonFreq, alpha=0) # transparent bc don't want it to shown on the plot, looks identical to count
-ax2.set_ylabel('Frequency (Fraction)')
-ax2.margins(x=0.01)
-
-# X-ticks styling
-ax1.set_xticks(range(len(codons)))
-ax1.set_xticklabels(codons, fontsize=9, rotation=45, ha='right')
-
-plt.tight_layout()
-
-# save plot to png
-# directory to save to
+# Directory to save plots to
 output_dir = 'plots'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
-# Create dynamic filename to avoid overwriting
-output_filename = os.path.join(output_dir, f'{'GRCh38.p14'}_codon_usage.png')
+# computing codon count and frequencies
+gene_name = names[0]
+rawData = analysis.analyzeCodons(seqs[0], 'dna')
+data = rawData[0]
 
-# save figure and close plot
-plt.savefig(output_filename, dpi=300) 
-plt.close()
+# Generate codon usage bar graph
+# Create dynamic filename to avoid overwriting
+safe_name = gene_name.replace(':', '_')
+output_filename = os.path.join(output_dir, f'{safe_name}_codon_usage.png')
+
+plotting.bar_count_freq(data, rawData[1], "Codon Count and Frequency", "Codon", output_filename)
 
 # computing amino acid count and frequencies
 aa = analysis.analyzeAminoAcids(data)
