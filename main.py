@@ -1,10 +1,4 @@
 # Given a DNA or RNA sequence, analyze codon usage
-# Compute count and frequencies of each codon
-# Compute count and frequencies of each amino acid
-#   Within that, count/freq. of each codon for each AA
-#   Example: for AA 'T', a seq. could have 50% of codons coding for T be "ACC"
-# Make graphs for the analyzed information
-#   histograms maybe?
 
 import matplotlib.pyplot as plt
 import os
@@ -76,11 +70,11 @@ if __name__ == "__main__":      # only runs the following code when it is being 
 
 # plotting codon distribution
 data = analyze(seqs[0], 'dna')[0]
-xvals = list(data.keys())
-yvals = list(data.values())
+sorted_data = sorted(data.items(), key=lambda item: item[1], reverse=True)
+xVals, yVals = zip(*sorted_data)
 
 plt.figure(figsize=(10, 6))
-plt.bar(xvals, yvals, color='skyblue')
+plt.bar(xVals, yVals, color='skyblue')
 
 plt.xlabel('Codon')
 plt.xticks(rotation=45, ha='right')
