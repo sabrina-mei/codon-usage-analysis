@@ -1,6 +1,6 @@
 # Given a DNA or RNA sequence, analyze codon usage
 
-codonTable = {
+codon_table = {
     'UUU': 'F', 'CUU': 'L', 'AUU': 'I', 'GUU': 'V',
     'UUC': 'F', 'CUC': 'L', 'AUC': 'I', 'GUC': 'V',
     'UUA': 'L', 'CUA': 'L', 'AUA': 'I', 'GUA': 'V',
@@ -20,12 +20,12 @@ codonTable = {
 }
 
 # make a reversed table, each item is key (an anmino acid) with list of values (codons that code for the AA)
-revCodonTable = {}
-for key, val in codonTable.items():
-    if val in revCodonTable:
-        revCodonTable[val].append(key)
+rev_codon_table = {}
+for key, val in codon_table.items():
+    if val in rev_codon_table:
+        rev_codon_table[val].append(key)
     else:
-        revCodonTable[val] = [key]
+        rev_codon_table[val] = [key]
 
 # type of sequence is either 'rna' or 'dna'
 # return tuple (dictionary, int): ({key (codon), value (count)}, total num of codons)
@@ -37,7 +37,7 @@ def analyzeCodons(sequence: str, type: str):
     if idx < 0:
         raise ValueError('Sequence does not contain a start codon')
     
-    count = {key: 0 for key in codonTable}
+    count = {key: 0 for key in codon_table}
     total = 0
     while idx < len(sequence) - 2:
         codon = sequence[idx:idx+3]
@@ -49,8 +49,8 @@ def analyzeCodons(sequence: str, type: str):
     return (count, total)
 
 def analyzeAminoAcids(codons: dict):
-    count = {key: 0 for key in revCodonTable}
-    for key, val in revCodonTable.items():
+    count = {key: 0 for key in rev_codon_table}
+    for key, val in rev_codon_table.items():
         for c in val:
             count[key] += codons[c]
     return count

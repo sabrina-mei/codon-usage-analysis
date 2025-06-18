@@ -23,15 +23,15 @@ if not os.path.exists(output_dir):
 
 # computing codon count and frequencies
 gene_name = names[0]
-rawData = analysis.analyzeCodons(seqs[0], 'dna')
-data = rawData[0]
+raw_data = analysis.analyzeCodons(seqs[0], 'dna')
+data = raw_data[0]
 
 # Generate codon usage bar graph
 # Create dynamic filename to avoid overwriting
 safe_name = gene_name.replace(':', '_')
-codon_output_filename = os.path.join(output_dir, f'{safe_name}_codon_usage.png')
+output_filename = os.path.join(output_dir, f'{safe_name}_codon_usage.png')
 
-plotting.bar_count_freq(data, rawData[1], "Codon Count and Frequency", "Codon", codon_output_filename)
+plotting.bar_count_freq(data, raw_data[1], "Codon Count and Frequency", "Codon", output_filename)
 
 # computing amino acid count and frequencies
 aa_data = analysis.analyzeAminoAcids(data)
@@ -39,6 +39,6 @@ aa_data = analysis.analyzeAminoAcids(data)
 # Generate amino acid usage bar graph
 # Create dynamic filename to avoid overwriting
 safe_name = gene_name.replace(':', '_')
-aa_output_filename = os.path.join(output_dir, f'{safe_name}_amino_acid_usage.png')
+output_filename = os.path.join(output_dir, f'{safe_name}_amino_acid_usage.png')
 
-plotting.bar_count_freq(aa_data, rawData[1], "Amino Acid Count and Frequency", "Amino Acid", aa_output_filename)
+plotting.bar_count_freq(aa_data, raw_data[1], "Amino Acid Count and Frequency", "Amino Acid", output_filename)
