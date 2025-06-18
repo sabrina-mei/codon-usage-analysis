@@ -21,11 +21,12 @@ data = codon_analysis.analyze(seqs[0], 'dna')[0]
 sorted_data = sorted(data.items(), key=lambda item: item[1], reverse=True)
 xVals, yVals = zip(*sorted_data)
 
-plt.figure(figsize=(10, 6))
-plt.bar(xVals, yVals, color='skyblue')
+plt.figure(figsize=(12, 6))
+plt.bar(xVals, yVals, color='turquoise')
+plt.margins(x=0.01)
 
 plt.xlabel('Codon')
-plt.xticks(rotation=45, ha='right')
+plt.xticks(fontsize=9, rotation=45, ha='right')
 plt.ylabel('Count')
 plt.title('Count of Codons in Sequence')
 
