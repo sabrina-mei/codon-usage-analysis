@@ -63,15 +63,17 @@ def gc(sequence: str, window_size: int, lineplot_filename: str, bar_filename: st
     x = list(range(1, len(sequence) - window_size + 1))
 
     plt.rcParams.update({'font.size': 15}) 
-    plt.figure(figsize=(12, 6))
-    plt.plot(x, data, linewidth=2)
+    # widen plot for longer sequences
+    add_width = int(len(sequence) / 500)
+    plt.figure(figsize=(8 + add_width, 6))
+    plt.plot(x, data)
     plt.xlabel('Base Index')
     plt.xlim(1, len(x))
     plt.ylabel('GC Content (%)')
     plt.title('GC Content Distribution')
 
     # save figure and close plot
-    plt.savefig(lineplot_filename, dpi=300) 
+    plt.savefig(lineplot_filename, dpi=300, bbox_inches='tight') 
     plt.close()
     print(f"Line plot saved to {lineplot_filename}")
 
@@ -79,10 +81,6 @@ def gc(sequence: str, window_size: int, lineplot_filename: str, bar_filename: st
     bp = ['1 and 2', '3']
     gc12 = (sum(data[0::3])+sum(data[1::3])) / (len(data[0::3]) + len(data[1::3]))
     gc3 = sum(data[2::3]) / len(data[2::3])
-
-   
-    
-    
 
     plt.rcParams.update({'font.size': 14}) 
     fig, ax = plt.subplots(figsize=(6, 6))

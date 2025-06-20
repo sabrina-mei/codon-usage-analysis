@@ -6,7 +6,7 @@ import plotting
 
 # read file
 script_dir = os.path.dirname(os.path.abspath(__file__))
-file_name = os.path.join(script_dir, 'raw_data/test.fa')
+file_name = os.path.join(script_dir, 'raw_data/gene.fna')
 
 # open file as fasta (each line is either the name of a sequence or a sequence itself)
 names = []
@@ -32,7 +32,7 @@ data = raw_data[0]
 
 # Generate codon usage bar graph
 # Create dynamic filename to avoid overwriting
-safe_name = gene_name.replace(':', '_')
+safe_name = gene_name.replace(':', '_') # can't have : in file names
 output_filename = os.path.join(plot_output_dir, f'{safe_name}_codon_usage.png')
 
 plotting.bar_count_freq(data, raw_data[1], "Codon Count and Frequency", "Codon", output_filename)
