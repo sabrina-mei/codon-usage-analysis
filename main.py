@@ -6,7 +6,7 @@ import plotting
 
 # read file
 script_dir = os.path.dirname(os.path.abspath(__file__))
-file_name = os.path.join(script_dir, 'raw_data/gene.fna')
+file_name = os.path.join(script_dir, 'raw_data/e-coli.fasta')
 
 # open file as fasta (each line is either the name of a sequence or a sequence itself)
 names = []
