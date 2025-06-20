@@ -89,3 +89,15 @@ def rscu(codon_data: dict, amino_acid_data: dict):
             rscu[codon] = 0.0
     return rscu
 
+"""
+Computes the GC content of the sequence
+
+:param str sequence: the dna or rna sequence to be analyzed
+:return: the gc content as a fraction (max is 1)
+:rtype: float
+"""
+def gc(sequence: str):
+    lower_seq = sequence.lower()
+    g = lower_seq.count('g')
+    c = lower_seq.count('c')
+    return round((g+c) / len(sequence), 4)

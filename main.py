@@ -6,7 +6,7 @@ import plotting
 
 # read file
 script_dir = os.path.dirname(os.path.abspath(__file__))
-file_name = os.path.join(script_dir, 'raw_data/test.fa')
+file_name = os.path.join(script_dir, 'raw_data/gene.fna')
 
 # open file as fasta (each line is either the name of a sequence or a sequence itself)
 names = []
@@ -47,7 +47,6 @@ output_filename = os.path.join(output_dir, f'{safe_name}_amino_acid_usage.png')
 
 plotting.bar_count_freq(aa_data, raw_data[1], "Amino Acid Count and Frequency", "Amino Acid", output_filename)
 
-
 # calculating Relative Synonymous Codon Usage 
 rscu_data = analysis.rscu(data, aa_data)
 
@@ -56,3 +55,7 @@ output_filename = os.path.join(output, 'rscu.txt')
 with open(output_filename, 'w') as file:
     for key, val in rscu_data.items():
         file.write(key + ': ' + str(val) + '\n')
+
+# calculating gc content
+print(seqs[0])
+print(analysis.gc(seqs[0]))
