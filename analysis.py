@@ -26,13 +26,14 @@ for key, val in codon_table.items():
         rev_codon_table[val].append(key)
     else:
         rev_codon_table[val] = [key]
+"""
+Computes the number of each codon present
 
-# theoretical synonomous codon fractions
-# ex: for amino acid F, 1/2 UUU and 1/2 UUC
-codon_fractions = {}
-
-# type of sequence is either 'rna' or 'dna'
-# return tuple (dictionary, int): ({key (codon), value (count)}, total num of codons)
+:param str sequence: the sequence to be analyzed
+:param str type: 'dna' for DNA sequence, 'rna' for RNA sequence
+:return: codon counts and total number of codons (dict of codon, count and int of total num)
+:rtype: tuple(dict, int)
+"""
 def analyze_codons(sequence: str, type: str):
     if type.lower() == 'dna':
         sequence = sequence.replace('T', 'U')

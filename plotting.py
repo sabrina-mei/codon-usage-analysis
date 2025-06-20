@@ -1,6 +1,6 @@
 # creates plots to visualize data
 import matplotlib.pyplot as plt
-
+import analysis
 """
 Generate and saves a sorted usage (count and frequency) bar plot
 
@@ -42,3 +42,36 @@ def bar_count_freq(data: dict, total: int, title: str, x_label: str, output_file
     plt.savefig(output_filename, dpi=300) 
     plt.close()
     print(f"Bar chart saved to {output_filename}")
+
+"""
+Generate and saves a GC content distribution line graph
+
+:param str sequence: sequence to be analyzed & plotted
+:param int window_size: size of window around each base, >=30 and <len(sequence)
+:param str output_filename: file name for plot to be saved to
+"""
+def gc(sequence: str, window_size: int, output_filename: str):
+    # maybe raise errors for issues with sequence length, window size
+    # compute windows
+    half = window_size // 2
+    data = []
+    for i in range(0, len(sequence)):
+        start = max(0, i - half)
+        end = min(len(sequence), i + half)
+        window_seq = sequence[start:end+1]
+        data.append(analysis.gc(window_seq))
+        # if i < half:
+        #     # window = beginning of seq to window_size/2 past i
+        #     data.append(analysis.gc(sequence[0:window_size]))
+        # elif i + half > len(sequence):
+        #     # window = window_size/2 before i to end of sequence
+        #     data.append(analysis.gc(sequence[i-half:len(sequence)]))
+        # else:
+        #     data.append(analysis.gc(sequence[i-half:i+half]))
+    
+    # plotting
+    x = list(range(1, len(sequence) + 1))
+    print(data[1281])
+    print(x[1281])
+    plt.plot(x, data)
+    plt.show()

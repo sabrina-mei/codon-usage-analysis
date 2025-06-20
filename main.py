@@ -51,11 +51,12 @@ plotting.bar_count_freq(aa_data, raw_data[1], "Amino Acid Count and Frequency", 
 rscu_data = analysis.rscu(data, aa_data)
 
 # write output to file
-output_filename = os.path.join(output, 'rscu.txt')
+output_filename = os.path.join(output, f'{safe_name}_rscu.txt')
 with open(output_filename, 'w') as file:
     for key, val in rscu_data.items():
         file.write(key + ': ' + str(val) + '\n')
 
-# calculating gc content
-print(seqs[0])
+# calculating gc content and plotting it
 print(analysis.gc(seqs[0]))
+output_filename = os.path.join(output, f'{safe_name}_gc.png')
+plotting.gc(seqs[0], 30, output_filename)
