@@ -53,25 +53,23 @@ Generate and saves a GC content distribution line graph
 def gc(sequence: str, window_size: int, output_filename: str):
     # maybe raise errors for issues with sequence length, window size
     # compute windows
-    half = window_size // 2
     data = []
-    for i in range(0, len(sequence)):
-        start = max(0, i - half)
-        end = min(len(sequence), i + half)
-        window_seq = sequence[start:end+1]
-        data.append(analysis.gc(window_seq))
-        # if i < half:
-        #     # window = beginning of seq to window_size/2 past i
-        #     data.append(analysis.gc(sequence[0:window_size]))
-        # elif i + half > len(sequence):
-        #     # window = window_size/2 before i to end of sequence
-        #     data.append(analysis.gc(sequence[i-half:len(sequence)]))
-        # else:
-        #     data.append(analysis.gc(sequence[i-half:i+half]))
-    
+    for i in range(0, len(sequence) - window_size):
+        # for any bp, gc content to be graphed = gc content of window from the bp to i + window_size
+        data.append(analysis.gc(sequence[i:i+window_size]))
+
     # plotting
-    x = list(range(1, len(sequence) + 1))
-    print(data[1281])
-    print(x[1281])
-    plt.plot(x, data)
-    plt.show()
+    x = list(range(1, len(sequence) - window_size + 1))
+
+    plt.rcParams.update({'font.size': 15}) 
+    plt.figure(figsize=(12, 6))
+    plt.plot(x, data, linewidth=2)
+    plt.xlabel('Base Index')
+    plt.xlim(1, len(x))
+    plt.ylabel('GC Content (Fraction)')
+    plt.title('GC Content Distribution')
+
+    # save figure and close plot
+    plt.savefig(output_filename, dpi=300) 
+    plt.close()
+    print(f"Line plot saved to {output_filename}")
