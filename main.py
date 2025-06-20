@@ -6,7 +6,7 @@ import plotting
 
 # read file
 script_dir = os.path.dirname(os.path.abspath(__file__))
-file_name = os.path.join(script_dir, 'raw_data/gene.fna')
+file_name = os.path.join(script_dir, 'raw_data/test.fa')
 
 # open file as fasta (each line is either the name of a sequence or a sequence itself)
 names = []
@@ -59,4 +59,5 @@ with open(output_filename, 'w') as file:
 # calculating gc content and plotting it
 print(analysis.gc(seqs[0]))
 output_filename = os.path.join(plot_output_dir, f'{safe_name}_gc.png')
-plotting.gc(seqs[0], 30, output_filename)
+output2_filename = os.path.join(plot_output_dir, f'{safe_name}_gc_bp.png')
+plotting.gc(seqs[0], 30, output_filename, output2_filename)

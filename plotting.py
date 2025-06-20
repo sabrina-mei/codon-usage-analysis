@@ -44,13 +44,14 @@ def bar_count_freq(data: dict, total: int, title: str, x_label: str, output_file
     print(f"Bar chart saved to {output_filename}")
 
 """
-Generate and saves a GC content distribution line graph
+Generate and saves a GC content distribution line graph, and a bar graph to compare 
 
 :param str sequence: sequence to be analyzed & plotted
 :param int window_size: size of window around each base, >=30 and <len(sequence)
-:param str output_filename: file name for plot to be saved to
+:param str lineplot_filename: file name for line plot to be saved to
+:param str bar_filename: file name for bar graph to be saved to
 """
-def gc(sequence: str, window_size: int, output_filename: str):
+def gc(sequence: str, window_size: int, lineplot_filename: str, bar_filename: str):
     # maybe raise errors for issues with sequence length, window size
     # compute windows
     data = []
@@ -66,10 +67,35 @@ def gc(sequence: str, window_size: int, output_filename: str):
     plt.plot(x, data, linewidth=2)
     plt.xlabel('Base Index')
     plt.xlim(1, len(x))
-    plt.ylabel('GC Content (Fraction)')
+    plt.ylabel('GC Content (%)')
     plt.title('GC Content Distribution')
 
     # save figure and close plot
-    plt.savefig(output_filename, dpi=300) 
+    plt.savefig(lineplot_filename, dpi=300) 
     plt.close()
-    print(f"Line plot saved to {output_filename}")
+    print(f"Line plot saved to {lineplot_filename}")
+
+    # plotting average GC content of bp 1 and 2 vs 3 in codons
+    bp = ['1 and 2', '3']
+    gc12 = (sum(data[0::3])+sum(data[1::3])) / (len(data[0::3]) + len(data[1::3]))
+    gc3 = sum(data[2::3]) / len(data[2::3])
+
+   
+    
+    
+
+    plt.rcParams.update({'font.size': 14}) 
+    fig, ax = plt.subplots(figsize=(6, 6))
+    bars = ax.bar(bp, [gc12, gc3])
+    ax.bar_label(bars, fmt='%.2f')
+
+    ax.set_xlabel('Codon Position')
+    ax.set_ylabel('GC Content (%)')
+    ax.set_ylim(0, max(gc12, gc3) * 1.1) # add 10% headroom to bars for labels
+    ax.set_title('Average GC Content of Codon Positions')
+
+    # save figure and close plot
+    fig.savefig(bar_filename, dpi=300) 
+    plt.close()
+    print(f"Bar plot saved to {bar_filename}")
+
