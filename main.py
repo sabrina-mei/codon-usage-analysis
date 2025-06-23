@@ -58,7 +58,6 @@ with open(output_filename, 'w') as file:
         file.write(key + ': ' + str(val) + '\n')
 
 # calculating gc content and plotting it
-print(analysis.gc(seqs[0]))
 output_filename = os.path.join(plot_output_dir, f'{safe_name}_gc.png')
 output2_filename = os.path.join(plot_output_dir, f'{safe_name}_gc_bp.png')
 plotting.gc(seqs[0], 30, output_filename, output2_filename)

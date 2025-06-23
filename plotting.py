@@ -79,6 +79,7 @@ def gc(sequence: str, window_size: int, lineplot_filename: str, bar_filename: st
 
     # plotting average GC content of bp 1 and 2 vs 3 in codons
     bp = ['1 and 2', '3']
+    gc_all = analysis.gc(sequence)
     gc12 = (sum(data[0::3])+sum(data[1::3])) / (len(data[0::3]) + len(data[1::3]))
     gc3 = sum(data[2::3]) / len(data[2::3])
 
@@ -90,7 +91,7 @@ def gc(sequence: str, window_size: int, lineplot_filename: str, bar_filename: st
     ax.set_xlabel('Codon Position')
     ax.set_ylabel('GC Content (%)')
     ax.set_ylim(0, max(gc12, gc3) * 1.1) # add 10% headroom to bars for labels
-    ax.set_title('Average GC Content of Codon Positions')
+    ax.set_title(f'Overall Average GC Content: {gc_all:.2f}')
 
     # save figure and close plot
     fig.savefig(bar_filename, dpi=300) 
