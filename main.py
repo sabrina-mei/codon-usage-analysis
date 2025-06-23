@@ -61,3 +61,8 @@ with open(output_filename, 'w') as file:
 output_filename = os.path.join(plot_output_dir, f'{safe_name}_gc.png')
 output2_filename = os.path.join(plot_output_dir, f'{safe_name}_gc_bp.png')
 plotting.gc(seqs[0], 30, output_filename, output2_filename)
+
+# rscu heatmap
+heat_name = 'test'
+output_filename = os.path.join(plot_output_dir, f'{heat_name}_codon_usage_heatmap.png')
+plotting.rscu_heatmap(names, seqs, output_filename)
