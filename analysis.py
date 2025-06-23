@@ -103,3 +103,19 @@ def gc(sequence: str):
     g = lower_seq.count('g')
     c = lower_seq.count('c')
     return round((g+c) / len(sequence) * 100, 4)
+
+"""
+Computes the Effective Number of Codons (ENC)
+Ranges from 20 (only one codon used per amino acid)
+to 61 (all codons used )
+
+:param dict codon_usage: the count of codons used (output of analyze_codons)
+:return: the ENC
+:rtype: int
+"""
+def enc(codon_usage):
+    count = 0
+    for key, value in codon_usage.items():
+        if value != 0:
+            count += 1
+    return count

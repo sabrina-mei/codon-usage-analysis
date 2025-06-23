@@ -65,5 +65,15 @@ plotting.gc(seqs[0], 30, output_filename, output2_filename)
 # rscu heatmap
 heat_name = 'test'
 output_filename = os.path.join(plot_output_dir, f'{heat_name}_codon_usage_heatmap.png')
-species = ['Homo sapiens', 'Drosophila melanogaster', 'Saccharomyces cerevisiae', 'Escherichia coli']
+species = ['Homo\nsapiens', 'Drosophila\nmelanogaster', 'Saccharomyces\ncerevisiae', 'Escherichia\ncoli']
 plotting.rscu_heatmap(species, seqs, 'GAPDH RSCU Across Different Species', output_filename)
+
+# enc
+print(analysis.enc(data)) # for the homo sapian sample, all 61 codons are used
+
+# Generate codon useage bar graph for e.coli data
+safe_name = names[3].replace('|', '_') # can't have : in file names
+output_filename = os.path.join(plot_output_dir, f'{safe_name}_codon_usage.png')
+raw = analysis.analyze_codons(seqs[3], 'dna')
+plotting.bar_count_freq(raw[0], raw[1], "Codon Count and Frequency", "Codon", output_filename)
+print(analysis.enc(raw[0])) # for e. coli, only 41 codons are used
