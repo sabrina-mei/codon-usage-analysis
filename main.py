@@ -42,13 +42,14 @@ aa_data = analysis.analyze_amino_acids(data)
 
 # Generate amino acid usage bar graph
 # Create dynamic filename to avoid overwriting
-safe_name = gene_name.replace(':', '_')
 output_filename = os.path.join(plot_output_dir, f'{safe_name}_amino_acid_usage.png')
 
 plotting.bar_count_freq(aa_data, raw_data[1], "Amino Acid Count and Frequency", "Amino Acid", output_filename)
 
-# calculating Relative Synonymous Codon Usage 
+# calculating Relative Synonymous Codon Usage and plotting
 rscu_data = analysis.rscu(data, aa_data)
+output_filename = os.path.join(plot_output_dir, f'{safe_name}_rscu.png')
+plotting.rscu(rscu_data, output_filename)
 
 # write output to file
 output_filename = os.path.join(data_output_dir, f'{safe_name}_rscu.txt')

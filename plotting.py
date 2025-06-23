@@ -97,3 +97,26 @@ def gc(sequence: str, window_size: int, lineplot_filename: str, bar_filename: st
     plt.close()
     print(f"Bar plot saved to {bar_filename}")
 
+"""
+Generate and saves a graph comparing rscu values
+
+:param dict rscu_data: rscu values to be plotted
+:param str filename: file name for graph to be saved to
+"""
+def rscu(rscu_data, filename):
+    x = list(rscu_data.keys())
+    y = list(rscu_data.values())
+
+    plt.figure(figsize=(12,6))
+    plt.rcParams.update({'font.size': 15}) 
+    plt.bar(x, y)
+    plt.xlabel('Codon')
+    plt.ylabel('RSCU')
+
+    plt.xticks(fontsize=9, rotation=45)
+    plt.tight_layout()
+    plt.margins(x=0.01)
+    # save figure and close plot
+    plt.savefig(filename, dpi=300) 
+    plt.close()
+    print(f"RSCU plot saved to {filename}")
