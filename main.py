@@ -6,7 +6,7 @@ import plotting
 
 # read file
 script_dir = os.path.dirname(os.path.abspath(__file__))
-file_name = os.path.join(script_dir, 'raw_data/e-coli.fasta')
+file_name = os.path.join(script_dir, 'raw_data/heatmap_test.fasta')
 
 # open file as fasta (each line is either the name of a sequence or a sequence itself)
 names = []
@@ -65,4 +65,5 @@ plotting.gc(seqs[0], 30, output_filename, output2_filename)
 # rscu heatmap
 heat_name = 'test'
 output_filename = os.path.join(plot_output_dir, f'{heat_name}_codon_usage_heatmap.png')
-plotting.rscu_heatmap(names, seqs, output_filename)
+species = ['Homo sapiens', 'Drosophila melanogaster', 'Saccharomyces cerevisiae', 'Escherichia coli']
+plotting.rscu_heatmap(species, seqs, 'GAPDH RSCU Across Different Species', output_filename)

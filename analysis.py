@@ -35,6 +35,7 @@ Computes the number of each codon present
 :rtype: tuple(dict, int)
 """
 def analyze_codons(sequence: str, type: str):
+    sequence = sequence.upper()
     if type.lower() == 'dna':
         sequence = sequence.replace('T', 'U')
     idx = 0

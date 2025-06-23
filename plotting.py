@@ -133,29 +133,27 @@ Color = RSCU
 
 :param list names: names of the sequences
 :param list seqs: sequences to be analyzed
+:param str title: title for the heatmap
 :param str filename: file name for plot to be saved to
 """
-def rscu_heatmap(names, seqs, filename):
-    #for i in range(len(names)):
+def rscu_heatmap(names, seqs, title, filename):
+    data = pd.DataFrame()
+    for i in range(len(names)):
+        codon_use = analysis.analyze_codons(seqs[i], 'dna')[0]
+        aa_use = analysis.analyze_amino_acids(codon_use)
+        rscu_value = analysis.rscu(codon_use, aa_use)
 
-    # Example data: rows = genes/organisms, columns = codons
-    codons = ['AAA', 'AAC', 'AAG']
-    genes = ['Gene1', 'Gene2', 'Gene3']
+        data = pd.concat([data, pd.DataFrame([rscu_value], index=[names[i]])])
 
-    data = pd.DataFrame([
-        [1.2, 0.8, 1.0],
-        [1.1, 0.9, 1.3],
-        [0.7, 1.2, 1.0]
-    ], columns=codons, index=genes)
-
-    plt.figure(figsize=(8, 6))
-    sns.heatmap(data, annot=True, cmap='RdBu')
+    plt.figure(figsize=(25, 6))
+    sns.heatmap(data, annot=False, cmap='RdBu')
     plt.xlabel('Codon')
     plt.ylabel('Gene/Organism')
-    plt.title('RSCU Heatmap')
+    plt.title(title)
     plt.tight_layout()
+    plt.margins(x=0.01)
     
     # save figure and close plot
-    plt.savefig(filename, dpi=300) 
+    plt.savefig(filename, dpi=300, bbox_inches='tight') 
     plt.close()
     print(f"RSCU heatmap saved to {filename}")
