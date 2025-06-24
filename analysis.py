@@ -1,4 +1,4 @@
-# Given a DNA or RNA sequence, analyze codon usage
+#from Bio.SeqUtils.CodonUsage import CodonAdaptationIndex, SharpEcoliIndex
 
 codon_table = {
     'UUU': 'F', 'UUC': 'F', 'UUA': 'L', 'UUG': 'L', 
@@ -30,14 +30,13 @@ for key, val in codon_table.items():
 Computes the number of each codon present
 
 :param str sequence: the sequence to be analyzed
-:param str type: 'dna' for DNA sequence, 'rna' for RNA sequence
 :return: codon counts (keys are codons, values are counts)
 :rtype: dict
 """
-def analyze_codons(sequence: str, type: str):
+def analyze_codons(sequence: str,):
     sequence = sequence.upper()
-    if type.lower() == 'dna':
-        sequence = sequence.replace('T', 'U')
+    sequence = sequence.replace('T', 'U') # in case sequence was dna
+
     idx = 0
 
     count = {key: 0 for key in codon_table}

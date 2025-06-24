@@ -27,7 +27,7 @@ if not os.path.exists(data_output_dir):
 # every function is tested using first sequence in the fasta file
 # computing codon count and frequencies
 gene_name = names[0]
-data = analysis.analyze_codons(seqs[0], 'dna')
+data = analysis.analyze_codons(seqs[0])
 
 # Generate codon usage bar graph
 # Create dynamic filename to avoid overwriting
@@ -36,21 +36,19 @@ output_filename = os.path.join(plot_output_dir, f'{safe_name}_codon_usage.png')
 
 plotting.bar_count_freq(data, "Codon Count and Frequency", "Codon", output_filename)
 
-# computing amino acid count and frequencies
+# computing amino acid count and frequencies and plotting
 aa_data = analysis.analyze_amino_acids(data)
 
-# Generate amino acid usage bar graph
-# Create dynamic filename to avoid overwriting
 output_filename = os.path.join(plot_output_dir, f'{safe_name}_amino_acid_usage.png')
-
 plotting.bar_count_freq(aa_data, "Amino Acid Count and Frequency", "Amino Acid", output_filename)
 
 # calculating Relative Synonymous Codon Usage and plotting
 rscu_data = analysis.rscu(data, aa_data)
+
 output_filename = os.path.join(plot_output_dir, f'{safe_name}_rscu.png')
 plotting.rscu(rscu_data, output_filename)
 
-# write output to file
+# write RSCU output to file
 output_filename = os.path.join(data_output_dir, f'{safe_name}_rscu.txt')
 with open(output_filename, 'w') as file:
     for key, val in rscu_data.items():
@@ -64,15 +62,12 @@ plotting.gc(seqs[0], 30, output_filename, output2_filename)
 # rscu heatmap
 heat_name = 'GAPDH'
 output_filename = os.path.join(plot_output_dir, f'{heat_name}_codon_usage_heatmap.png')
-species = ['Homo\nsapiens', 'Drosophila\nmelanogaster', 'Saccharomyces\ncerevisiae', 'Escherichia\ncoli']
+species = ['Homo\nsapiens', 'Drosophila\nmelanogaster', 'Saccharomyces\ncerevisiae', 'Escherichia\ncoli'] # row labels
 plotting.rscu_heatmap(species, seqs, 'GAPDH RSCU Across Different Species', output_filename)
 
 # enc
 print(analysis.enc(data)) # for the homo sapian sample, 61 out of 64 codons are used
 
-# Generate codon useage bar graph for e.coli data
-safe_name = names[3].replace('|', '_') # can't have : in file names
-output_filename = os.path.join(plot_output_dir, f'{safe_name}_codon_usage.png')
-raw = analysis.analyze_codons(seqs[3], 'dna')
-plotting.bar_count_freq(raw, "Codon Count and Frequency", "Codon", output_filename)
-print(analysis.enc(raw)) # for e. coli, only 41 codons are used
+# calculate and plot all enc values
+output_filename = os.path.join(plot_output_dir, 'ENC_values.png')
+plotting.enc(species, seqs, 'GAPDH', output_filename)

@@ -130,7 +130,7 @@ X-axis = codons
 Y-axis = different genes/organisms
 Color = RSCU
 
-:param list names: names of the sequences
+:param list names: names of the sequences (row labels)
 :param list seqs: sequences to be analyzed
 :param str title: title for the heatmap
 :param str filename: file name for plot to be saved to
@@ -138,7 +138,7 @@ Color = RSCU
 def rscu_heatmap(names, seqs, title, filename):
     data = pd.DataFrame()
     for i in range(len(names)):
-        codon_use = analysis.analyze_codons(seqs[i], 'dna')
+        codon_use = analysis.analyze_codons(seqs[i])
         aa_use = analysis.analyze_amino_acids(codon_use)
         rscu_value = analysis.rscu(codon_use, aa_use)
 
@@ -156,3 +156,34 @@ def rscu_heatmap(names, seqs, title, filename):
     plt.savefig(filename, dpi=300, bbox_inches='tight') 
     plt.close()
     print(f"RSCU heatmap saved to {filename}")
+
+"""
+Plots ENC for multiple sequences
+X-axis = sequence
+Y-axis = ENC
+
+:param list names: names of the sequences (row labels)
+:param list seqs: sequences to be analyzed
+:param str title: title for the plot
+:param str filename: file name for plot to be saved to
+"""
+def enc(seq_names, seqs, title, filename):
+    values = []
+    for seq in seqs:
+        values.append(analysis.enc(analysis.analyze_codons(seq)))
+
+    plt.rcParams.update({'font.size': 14}) 
+    fig, ax = plt.subplots(figsize=(8, 7)) # TODO: maybe have equation for width to make it wider if there are more seqs
+    bars = ax.bar(seq_names, values)
+    ax.bar_label(bars, fmt='%.2f')
+
+    ax.set_xlabel('Sequence')
+    ax.set_ylabel('ENC')
+    ax.set_ylim(0, max(values) * 1.1) # add 10% headroom to bars for labels
+    ax.set_title(title)
+
+
+    # save figure and close plot
+    fig.savefig(filename, dpi=300) 
+    plt.close()
+    print(f"ENC bar plot saved to {filename}")
