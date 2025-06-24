@@ -81,8 +81,8 @@ def gc(sequence: str, window_size: int, lineplot_filename: str, bar_filename: st
     # plotting average GC content of bp 1 and 2 vs 3 in codons
     bp = ['1 and 2', '3']
     gc_all = analysis.gc(sequence)
-    gc12 = (sum(data[0::3])+sum(data[1::3])) / (len(data[0::3]) + len(data[1::3]))
-    gc3 = sum(data[2::3]) / len(data[2::3])
+    gc12 = analysis.gc(sequence[0::3] + sequence[1::3])
+    gc3 = analysis.gc(sequence[2::3])
 
     plt.rcParams.update({'font.size': 14}) 
     fig, ax = plt.subplots(figsize=(6, 6))

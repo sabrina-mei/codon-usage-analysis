@@ -5,7 +5,7 @@ import plotting
 
 # read file
 script_dir = os.path.dirname(os.path.abspath(__file__))
-file_name = os.path.join(script_dir, 'raw_data/test_sequences.fasta')
+file_name = os.path.join(script_dir, 'local_raw_data/gene.fna')
 
 # open file as fasta (each line is either the name of a sequence or a sequence itself)
 names = []
@@ -16,11 +16,11 @@ with open(file_name, 'r') as fa:
         seqs.append(str(record.seq))
 
 # directories to save things to
-plot_output_dir = 'plots'
+plot_output_dir = 'local_plots'
 if not os.path.exists(plot_output_dir):
     os.makedirs(plot_output_dir)
 
-data_output_dir = 'output'
+data_output_dir = 'local_output'
 if not os.path.exists(data_output_dir):
     os.makedirs(data_output_dir)
 
