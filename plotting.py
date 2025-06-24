@@ -168,9 +168,7 @@ Y-axis = ENC
 :param str filename: file name for plot to be saved to
 """
 def enc(seq_names, seqs, title, filename):
-    values = []
-    for seq in seqs:
-        values.append(analysis.enc(seq))
+    values = [analysis.enc(seq) for seq in seqs]
 
     plt.rcParams.update({'font.size': 14}) 
     fig, ax = plt.subplots(figsize=(8, 7)) # TODO: maybe have equation for width to make it wider if there are more seqs
@@ -198,16 +196,14 @@ Y-axis = ENC
 :param str filename: file name for plot to be saved to
 """
 def enc_vs_gc3(names, seqs, title, filename):
-    gc3 = []
-    enc = []
-    for seq in seqs:
-        gc3.append(analysis.gc(seq))
-        enc.append(analysis.enc(seq))
+    gc3 = [analysis.gc(seq) for seq in seqs]
+    enc = [analysis.enc(seq) for seq in seqs]
     
     fig, ax = plt.subplots()
     ax.scatter(gc3, enc)
 
     # add labels to each point
+    # TODO: make the labels a legend or only show when hover over or something
     for x, y, label in zip(gc3, enc, names):
         ax.text(x, y, label, fontsize=10, ha='right', va='bottom')
 
