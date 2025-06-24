@@ -170,7 +170,7 @@ Y-axis = ENC
 def enc(seq_names, seqs, title, filename):
     values = []
     for seq in seqs:
-        values.append(analysis.enc(analysis.analyze_codons(seq)))
+        values.append(analysis.enc(seq))
 
     plt.rcParams.update({'font.size': 14}) 
     fig, ax = plt.subplots(figsize=(8, 7)) # TODO: maybe have equation for width to make it wider if there are more seqs
@@ -182,8 +182,42 @@ def enc(seq_names, seqs, title, filename):
     ax.set_ylim(0, max(values) * 1.1) # add 10% headroom to bars for labels
     ax.set_title(title)
 
-
     # save figure and close plot
     fig.savefig(filename, dpi=300) 
     plt.close()
     print(f"ENC bar plot saved to {filename}")
+
+"""
+Scatterplot of ENC vs GC content of codon position 3 for multiple sequences
+X-axis = GC3
+Y-axis = ENC
+
+:param list names: names of the sequences (point labels)
+:param list seqs: sequences to be analyzed
+:param str title: title for the plot
+:param str filename: file name for plot to be saved to
+"""
+def enc_vs_gc3(names, seqs, title, filename):
+    gc3 = []
+    enc = []
+    for seq in seqs:
+        gc3.append(analysis.gc(seq))
+        enc.append(analysis.enc(seq))
+    
+    fig, ax = plt.subplots()
+    ax.scatter(gc3, enc)
+
+    # add labels to each point
+    for x, y, label in zip(gc3, enc, names):
+        ax.text(x, y, label, fontsize=10, ha='right', va='bottom')
+
+    ax.set_xlabel('GC3')
+    ax.set_ylabel('ENC')
+    ax.set_title(title)
+
+    plt.tight_layout()
+
+     # save figure and close plot
+    fig.savefig(filename, dpi=300) 
+    plt.close()
+    print(f"ENC vs GC3 scatterplot saved to {filename}")

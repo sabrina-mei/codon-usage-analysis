@@ -105,11 +105,12 @@ Computes the Effective Number of Codons (ENC)
 Ranges from 20 (only one codon used per amino acid)
 to 61 (all codons used )
 
-:param dict codon_usage: the count of codons used (output of analyze_codons)
+:param str sequence: the sequence to be analyzed
 :return: the ENC
 :rtype: int
 """
-def enc(codon_usage):
+def enc(sequence: str):
+    codon_usage = analyze_codons(sequence)
     count = 0
     for key, value in codon_usage.items():
         if value != 0:

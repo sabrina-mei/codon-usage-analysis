@@ -5,7 +5,7 @@ import plotting
 
 # read file
 script_dir = os.path.dirname(os.path.abspath(__file__))
-file_name = os.path.join(script_dir, 'local_raw_data/gene.fna')
+file_name = os.path.join(script_dir, 'raw_data/test_sequences.fasta')
 
 # open file as fasta (each line is either the name of a sequence or a sequence itself)
 names = []
@@ -16,11 +16,11 @@ with open(file_name, 'r') as fa:
         seqs.append(str(record.seq))
 
 # directories to save things to
-plot_output_dir = 'local_plots'
+plot_output_dir = 'plots'
 if not os.path.exists(plot_output_dir):
     os.makedirs(plot_output_dir)
 
-data_output_dir = 'local_output'
+data_output_dir = 'output'
 if not os.path.exists(data_output_dir):
     os.makedirs(data_output_dir)
 
@@ -66,8 +66,12 @@ species = ['Homo\nsapiens', 'Drosophila\nmelanogaster', 'Saccharomyces\ncerevisi
 plotting.rscu_heatmap(species, seqs, 'GAPDH RSCU Across Different Species', output_filename)
 
 # enc
-print(analysis.enc(data)) # for the homo sapian sample, 61 out of 64 codons are used
+print(analysis.enc(seqs[0])) # for the homo sapian sample, 61 out of 64 codons are used
 
 # calculate and plot all enc values
 output_filename = os.path.join(plot_output_dir, 'ENC_values.png')
 plotting.enc(species, seqs, 'GAPDH', output_filename)
+
+# enc vs gc3
+output_filename = os.path.join(plot_output_dir, 'ENC_vs_GC3.png')
+plotting.enc_vs_gc3(species, seqs, 'GAPDH', output_filename)
