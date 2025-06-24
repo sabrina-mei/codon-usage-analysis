@@ -63,13 +63,13 @@ output2_filename = os.path.join(plot_output_dir, f'{safe_name}_gc_bp.png')
 plotting.gc(seqs[0], 30, output_filename, output2_filename)
 
 # rscu heatmap
-heat_name = 'test'
+heat_name = 'GAPDH'
 output_filename = os.path.join(plot_output_dir, f'{heat_name}_codon_usage_heatmap.png')
 species = ['Homo\nsapiens', 'Drosophila\nmelanogaster', 'Saccharomyces\ncerevisiae', 'Escherichia\ncoli']
 plotting.rscu_heatmap(species, seqs, 'GAPDH RSCU Across Different Species', output_filename)
 
 # enc
-print(analysis.enc(data)) # for the homo sapian sample, all 61 codons are used
+print(analysis.enc(data)) # for the homo sapian sample, 61 out of 64 codons are used
 
 # Generate codon useage bar graph for e.coli data
 safe_name = names[3].replace('|', '_') # can't have : in file names
