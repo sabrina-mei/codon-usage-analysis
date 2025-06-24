@@ -7,16 +7,15 @@ import analysis
 Generate and saves a sorted usage (count and frequency) bar plot
 
 :param dict data: data to be plotted (keys are x values, values and y values)
-:param int total: total number of data points (used to calculate freuqencies)
 :param str title: title for the plot
 :param str x_label: x axis label for the plot
 :param str output_filename: file name for plot to be saved to
 """
-def bar_count_freq(data: dict, total: int, title: str, x_label: str, output_filename: str):
+def bar_count_freq(data: dict, title: str, x_label: str, output_filename: str):
     # sorting data and calculating frequency fractions
     sorted_data = sorted(data.items(), key=lambda item: item[1], reverse=True)
     labels, count = zip(*sorted_data)
-    freq = tuple(x / total for x in count)
+    freq = tuple(x / sum(data.values()) for x in count)
 
     # plotting
     fig, ax1 = plt.subplots(figsize=(12, 6))
@@ -139,7 +138,7 @@ Color = RSCU
 def rscu_heatmap(names, seqs, title, filename):
     data = pd.DataFrame()
     for i in range(len(names)):
-        codon_use = analysis.analyze_codons(seqs[i], 'dna')[0]
+        codon_use = analysis.analyze_codons(seqs[i], 'dna')
         aa_use = analysis.analyze_amino_acids(codon_use)
         rscu_value = analysis.rscu(codon_use, aa_use)
 

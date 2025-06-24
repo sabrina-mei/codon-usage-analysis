@@ -31,18 +31,15 @@ Computes the number of each codon present
 
 :param str sequence: the sequence to be analyzed
 :param str type: 'dna' for DNA sequence, 'rna' for RNA sequence
-:return: codon counts and total number of codons (dict of codon, count and int of total num)
-:rtype: tuple(dict, int)
+:return: codon counts (keys are codons, values are counts)
+:rtype: dict
 """
 def analyze_codons(sequence: str, type: str):
     sequence = sequence.upper()
     if type.lower() == 'dna':
         sequence = sequence.replace('T', 'U')
     idx = 0
-    # idx = sequence.find('AUG')
-    # if idx < 0:
-    #     raise ValueError('Sequence does not contain a start codon')
-    
+
     count = {key: 0 for key in codon_table}
     total = 0
     while idx < len(sequence) - 2:
@@ -52,7 +49,7 @@ def analyze_codons(sequence: str, type: str):
         total += 1
         idx += 3
 
-    return (count, total)
+    return count
 
 """
 Computes the number of each amino acid present

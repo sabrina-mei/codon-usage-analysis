@@ -1,12 +1,11 @@
 import os
 from Bio import SeqIO
-import matplotlib.pyplot as plt
 import analysis
 import plotting
 
 # read file
 script_dir = os.path.dirname(os.path.abspath(__file__))
-file_name = os.path.join(script_dir, 'raw_data/heatmap_test.fasta')
+file_name = os.path.join(script_dir, 'raw_data/test_sequences.fasta')
 
 # open file as fasta (each line is either the name of a sequence or a sequence itself)
 names = []
@@ -16,7 +15,7 @@ with open(file_name, 'r') as fa:
         names.append(record.id)
         seqs.append(str(record.seq))
 
-# Directory to save things to
+# directories to save things to
 plot_output_dir = 'plots'
 if not os.path.exists(plot_output_dir):
     os.makedirs(plot_output_dir)
@@ -25,17 +24,17 @@ data_output_dir = 'output'
 if not os.path.exists(data_output_dir):
     os.makedirs(data_output_dir)
 
+# every function is tested using first sequence in the fasta file
 # computing codon count and frequencies
 gene_name = names[0]
-raw_data = analysis.analyze_codons(seqs[0], 'dna')
-data = raw_data[0]
+data = analysis.analyze_codons(seqs[0], 'dna')
 
 # Generate codon usage bar graph
 # Create dynamic filename to avoid overwriting
 safe_name = gene_name.replace(':', '_') # can't have : in file names
 output_filename = os.path.join(plot_output_dir, f'{safe_name}_codon_usage.png')
 
-plotting.bar_count_freq(data, raw_data[1], "Codon Count and Frequency", "Codon", output_filename)
+plotting.bar_count_freq(data, "Codon Count and Frequency", "Codon", output_filename)
 
 # computing amino acid count and frequencies
 aa_data = analysis.analyze_amino_acids(data)
@@ -44,7 +43,7 @@ aa_data = analysis.analyze_amino_acids(data)
 # Create dynamic filename to avoid overwriting
 output_filename = os.path.join(plot_output_dir, f'{safe_name}_amino_acid_usage.png')
 
-plotting.bar_count_freq(aa_data, raw_data[1], "Amino Acid Count and Frequency", "Amino Acid", output_filename)
+plotting.bar_count_freq(aa_data, "Amino Acid Count and Frequency", "Amino Acid", output_filename)
 
 # calculating Relative Synonymous Codon Usage and plotting
 rscu_data = analysis.rscu(data, aa_data)
@@ -75,5 +74,5 @@ print(analysis.enc(data)) # for the homo sapian sample, 61 out of 64 codons are 
 safe_name = names[3].replace('|', '_') # can't have : in file names
 output_filename = os.path.join(plot_output_dir, f'{safe_name}_codon_usage.png')
 raw = analysis.analyze_codons(seqs[3], 'dna')
-plotting.bar_count_freq(raw[0], raw[1], "Codon Count and Frequency", "Codon", output_filename)
-print(analysis.enc(raw[0])) # for e. coli, only 41 codons are used
+plotting.bar_count_freq(raw, "Codon Count and Frequency", "Codon", output_filename)
+print(analysis.enc(raw)) # for e. coli, only 41 codons are used
