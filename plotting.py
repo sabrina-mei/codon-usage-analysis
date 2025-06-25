@@ -173,7 +173,7 @@ def enc(seq_names, seqs, title, filename):
     plt.rcParams.update({'font.size': 14}) 
     fig, ax = plt.subplots(figsize=(8, 7)) # TODO: maybe have equation for width to make it wider if there are more seqs
     bars = ax.bar(seq_names, values)
-    ax.bar_label(bars, fmt='%.2f')
+    ax.bar_label(bars, fmt='%d')
 
     ax.set_xlabel('Sequence')
     ax.set_ylabel('ENC')
