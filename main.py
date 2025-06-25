@@ -69,3 +69,4 @@ plotting.enc(species, seqs, 'GAPDH', output_filename)
 # enc vs gc3
 output_filename = os.path.join(plot_output_dir, 'ENC_vs_GC3.png')
 plotting.enc_vs_gc3(species, seqs, 'GAPDH', output_filename)
+

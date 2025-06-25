@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import analysis
+
 """
 Generate and saves a sorted usage (count and frequency) bar plot
 
@@ -217,3 +218,4 @@ def enc_vs_gc3(names, seqs, title, filename):
     fig.savefig(filename, dpi=300) 
     plt.close()
     print(f"ENC vs GC3 scatterplot saved to {filename}")
+
