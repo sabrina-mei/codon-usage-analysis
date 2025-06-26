@@ -34,11 +34,22 @@ Run sample data that generates sample plots and outputs for a single DNA sequenc
 ```bash
 python single_seq_example.py
 ```
+By default, this only analyzes the first sequence in the file. To analyze each sequence, change `single_only = True` to `False`
+
 Run sample data that generates sample plots and outputs for multiple DNA sequences:
 ```bash
 python multi_seq_example.py
 ```
+By default, this will not perform any single sequence analyses (for example, does not graph codon count for individual sequences).
+To also analyze single sequences, change `multi_only=True` to `False`. If `single_only = True`, only the first sequence in the file will be analyzed. 
+
 Run your own sequence:
+- Fill out everything under `# PARAMETERS` in `main.py`.
+- Put your `.fasta` file containing sequence(s) to be analyzed in the same folder containing `main.py` (or if not, make sure the path is listed in `squence_file_name`)
+- run the following command:
+```bash
+python main.py
+```
 ## Authors
 
   - Sabrina Mei

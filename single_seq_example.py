@@ -6,12 +6,14 @@ import plotting
 # PARAMETERS
 sequence_file_name = 'raw_data/test.fasta'       # name of the file containing your sequence(s) for analysis
 output_folder_name = 'sample_outputs/single'     # name of folder to save output graphs and files to
-single_only = True          # True to calculate single sequence statistics for only the first sequence in the file
+single_only = True           # True to calculate single sequence statistics for only the first sequence in the file
                              # False to calculate single sequence statistics for all sequences in the file
 
 # the following parameters are only required for multiple sequence analysis
 compare = False             # True to generate RSCU heatmap, ENC, and ENC vs GC3 graphs that compare all the squences in the input file
                             # False to not generate any of the above
+multi_only = False          # True to only generate the above and not perform any single sequence analyses
+                            # False to perform both single and multiple sequence analyses
 heatmap_title = ''          # title for RSCU heatmap
 seq_names = []              # names / labels for the sequences to be used in the RSCU, ENC, and ENC vs GC3 graphs
 enc_title = ''              # title for the ENC bar graph
@@ -37,7 +39,9 @@ if not os.path.exists(output_dir):
 tot = 1
 if not single_only:
     tot = len(names)    # calculate stats for all sequences
-
+if multi_only:
+    tot = 0
+    
 for i in range(tot):
     # computing codon count and frequencies
     seq_name = names[i]

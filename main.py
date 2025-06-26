@@ -12,6 +12,8 @@ single_only = True          # True to calculate single sequence statistics for o
 # the following parameters are only required for multiple sequence analysis
 compare = False             # True to generate RSCU heatmap, ENC, and ENC vs GC3 graphs that compare all the squences in the input file
                             # False to not generate any of the above
+multi_only = True           # True to only generate the above and not perform any single sequence analyses
+                            # False to perform both single and multiple sequence analyses
 heatmap_title = ''          # title for RSCU heatmap
 seq_names = []              # names / labels for the sequences to be used in the RSCU, ENC, and ENC vs GC3 graphs
 enc_title = ''              # title for the ENC bar graph
@@ -37,7 +39,9 @@ if not os.path.exists(output_dir):
 tot = 1
 if not single_only:
     tot = len(names)    # calculate stats for all sequences
-
+if multi_only:
+    tot = 0
+    
 for i in range(tot):
     # computing codon count and frequencies
     seq_name = names[i]
