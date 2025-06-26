@@ -150,6 +150,7 @@ def rscu_heatmap(names, seqs, title, filename):
         data = pd.concat([data, pd.DataFrame([rscu_value], index=[names[i]])])
 
     plt.figure(figsize=(21, 6))
+    plt.rcParams.update({'font.size': 14}) 
     sns.heatmap(data, annot=False, cmap='RdBu', center=1, vmax=2)
     plt.xlabel('Codon')
     plt.ylabel('Gene/Organism')

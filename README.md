@@ -34,6 +34,11 @@ Run sample data that generates sample plots and outputs for a single DNA sequenc
 ```bash
 python single_seq_example.py
 ```
+Run sample data that generates sample plots and outputs for multiple DNA sequences:
+```bash
+python multi_seq_example.py
+```
+Run your own sequence:
 ## Authors
 
   - Sabrina Mei
