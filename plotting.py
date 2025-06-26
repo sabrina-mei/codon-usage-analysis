@@ -52,6 +52,8 @@ Generate and saves a GC content distribution line graph, and a bar graph to comp
 :param int window_size: size of window around each base, >=30 and <len(sequence)
 :param str lineplot_filename: file name for line plot to be saved to
 :param str bar_filename: file name for bar graph to be saved to
+:return: GC distribution line graph values
+:rtype: list
 """
 def gc(sequence: str, window_size: int, lineplot_filename: str, bar_filename: str):
     # maybe raise errors for issues with sequence length, window size
@@ -99,6 +101,8 @@ def gc(sequence: str, window_size: int, lineplot_filename: str, bar_filename: st
     fig.savefig(bar_filename, dpi=300) 
     plt.close()
     print(f"Bar plot saved to {bar_filename}")
+
+    return data
 
 """
 Generate and saves a graph comparing rscu values

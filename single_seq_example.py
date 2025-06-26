@@ -32,10 +32,22 @@ safe_name = seq_name.replace(':', '_') # can't have : in file names
 output_filename = os.path.join(output_dir, f'{safe_name}_codon_usage.png')
 plotting.bar_count_freq(data, "Codon Count and Frequency", "Codon", output_filename)
 
+# write codon usage output to file
+output_filename = os.path.join(output_dir, f'{safe_name}_codon_usage.txt')
+with open(output_filename, 'w') as file:
+    for key, val in data.items():
+        file.write(key + ': ' + str(val) + '\n')
+
 # computing amino acid count and frequencies and plotting
 aa_data = analysis.analyze_amino_acids(data)
 output_filename = os.path.join(output_dir, f'{safe_name}_amino_acid_usage.png')
 plotting.bar_count_freq(aa_data, "Amino Acid Count and Frequency", "Amino Acid", output_filename)
+
+# write amino acid count and frequency output to file
+output_filename = os.path.join(output_dir, f'{safe_name}_amino_acid_usage.txt')
+with open(output_filename, 'w') as file:
+    for key, val in aa_data.items():
+        file.write(key + ': ' + str(val) + '\n')
 
 # calculating Relative Synonymous Codon Usage and plotting
 rscu_data = analysis.rscu(data, aa_data)
@@ -49,6 +61,12 @@ with open(output_filename, 'w') as file:
         file.write(key + ': ' + str(val) + '\n')
 
 # calculating gc content and plotting it
-output_filename = os.path.join(output_dir, f'{safe_name}_gc.png')
+output_filename = os.path.join(output_dir, f'{safe_name}_gc_dist.png')
 output2_filename = os.path.join(output_dir, f'{safe_name}_gc_bp.png')
-plotting.gc(seq, 30, output_filename, output2_filename)
+gc = plotting.gc(seq, 30, output_filename, output2_filename)
+
+# write GC distribution output to file
+output_filename = os.path.join(output_dir, f'{safe_name}_gc_dist.txt')
+with open(output_filename, 'w') as file:
+    for i in range(len(gc)):
+        file.write(str(i+1) + ',' + str(gc[i]) + '\n')
