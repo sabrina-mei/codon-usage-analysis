@@ -30,9 +30,9 @@ Install the required Python libraries:
 ```bash
 pip install matplotlib biopython pandas seaborn
 ```
-Run sample data that generates sample plots:
+Run sample data that generates sample plots and outputs for a single DNA sequence:
 ```bash
-python main.py
+python single_seq_example.py
 ```
 ## Authors
 
