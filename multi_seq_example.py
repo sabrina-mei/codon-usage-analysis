@@ -10,7 +10,7 @@ single_only = True          # True to calculate single sequence statistics for o
                             # False to calculate single sequence statistics for all sequences in the file
 
 # the following parameters are only required for multiple sequence analysis
-compare = False             # True to generate RSCU heatmap, ENC, and ENC vs GC3 graphs that compare all the squences in the input file
+compare = True             # True to generate RSCU heatmap, ENC, and ENC vs GC3 graphs that compare all the squences in the input file
                             # False to not generate any of the above
 multi_only = True           # True to only generate the above and not perform any single sequence analyses
                             # False to perform both single and multiple sequence analyses

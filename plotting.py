@@ -213,7 +213,7 @@ def enc_vs_gc3(names, seqs, title, filename):
     for x, y, label in zip(gc3, enc, names):
         ax.text(x, y, label, fontsize=10, ha='right', va='bottom')
 
-    ax.set_xlabel('GC3')
+    ax.set_xlabel('GC3  (%)')
     ax.set_ylabel('ENC')
     ax.set_title(title)
 
